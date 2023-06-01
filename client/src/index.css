@@ -1,0 +1,56 @@
+/* Global CSS Reset */
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+img,
+strong,
+em,
+small,
+strike,
+sub,
+sup,
+b,
+i,
+u,
+ol,
+ul,
+li,
+form,
+label,
+fieldset,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Additional Global Styles */
+/* Add your additional global styles here */
