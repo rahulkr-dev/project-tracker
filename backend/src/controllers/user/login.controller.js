@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const argon2 = require("argon2");
+const bcrypt = require("bcrypt");
 const User = require("../../models/user.model");
 const JwtService = require("../../services/jwtService");
 const CustomErrorHandler = require("../../services/customErrorHandler");
@@ -9,14 +10,12 @@ const authController = {
     // Validate the email
     try {
       let userExits = await User.findOne({ email: req.body.email });
-      console.log(userExits);
       if (userExits) {
         // Validate for password
-        console.log(userExits.password,req.body.password)
-        console.log(await argon2.verify(userExits.password, req.body.password))
+
         if (await argon2.verify(userExits.password, req.body.password)) {
-          const accessToken = JwtService.sign({ email: newUser.email }, "1m");
-          return res.status(200).send({ accessToken,user:"old" });
+          const accessToken = JwtService.sign({ email: userExits.email }, "1m");
+          return res.status(200).send({ accessToken, user: "old" });
         } else {
           return next(CustomErrorHandler.wrongCredentials("Wrong Credentials"));
         }
@@ -35,14 +34,17 @@ const authController = {
         }
 
         // hash password
-        const hash = await argon2.hash("password");
+        const hash = await argon2.hash(req.body.password);
+
         // create new user in the database
-        const newUser = new User({ email: req.body.email, password: hash });
+        console.log("working");
+        let newUser = new User({ email: req.body.email, password: hash });
+
         // save user
         await newUser.save();
         // Generating token
         const accessToken = JwtService.sign({ email: newUser.email }, "1m");
-        return res.status(201).send({ accessToken,user:"new" });
+        return res.status(201).send({ accessToken, user: "new" });
       }
     } catch (err) {
       return next(err);
