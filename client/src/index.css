@@ -52,5 +52,64 @@ body {
   color: #333;
 }
 
+/* for custom select box */
+.custom-select {
+  /* Styling for the select dropdown */
+  background-color: #fff;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 12px 12px;
+  width: 350px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+}
+
+.custom-select option {
+  /* Styling for the options */
+  background-color: #fff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 1rem;
+  outline: none;
+}
+
+/* Calender styling */
+.custom-date {
+  /* Styling for the input field */
+  padding: 5px;
+  border: 1px solid gray;
+  /* border-bottom: 1px solid #ccc; */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background-color: #f2f2f2;
+  width: 200px;
+}
+
+/* Styling for the calendar dropdown */
+.custom-date::-webkit-calendar-picker-indicator {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 2px;
+  border-radius: 100%;
+}
+
+.custom-date::-webkit-calendar-picker-indicator:hover {
+  background-color: #fff;
+}
+
+.custom-date::-webkit-calendar-picker-indicator:active {
+  background-color: skyblue;
+  border-radius: 100%;
+}
+
+.custom-date::-webkit-inner-spin-button,
+.custom-date::-webkit-outer-spin-button {
+  display: none;
+}
+
 /* Additional Global Styles */
 /* Add your additional global styles here */
