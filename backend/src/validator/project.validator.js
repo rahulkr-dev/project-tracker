@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const projectSchema = Joi.object({
+  theme: Joi.string().required(),
   reason: Joi.string().required(),
   type: Joi.string().required(),
   division: Joi.string().required(),

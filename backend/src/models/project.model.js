@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
+  theme: {
+    type: String,
+    required: true
+  },
   reason: {
     type: String,
     required: true
@@ -36,6 +40,11 @@ const projectSchema = new mongoose.Schema({
   location: {
     type: String,
     required: true
+  },
+  status:{
+    type: String,
+    enum: ['registered', 'closed', 'running', 'cancelled'],
+    default: 'registered'
   }
 });
 
