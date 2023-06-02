@@ -19,6 +19,8 @@ const projectController = {
 
   async getProject(req, res, next) {
     try {
+        let data = await Project.find();
+        return res.status(200).send(data)
     } catch (err) {
       return next(err);
     }
