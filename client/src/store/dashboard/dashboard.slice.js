@@ -41,7 +41,6 @@ const dashboardSlice = createSlice({
       })
       .addCase(getCountDocument.fulfilled, (state, action) => {
         state.loading = false;
-        state.isLoggedIn = true;
         let data = [];
         for (let key in action.payload) {
           let obj = {
@@ -51,7 +50,7 @@ const dashboardSlice = createSlice({
           data.push(obj);
         }
         state.documentCount = data;
-        console.log("inside",action.payload)
+        // console.log("inside",action.payload)
       })
       .addCase(getCountDocument.rejected, (state, action) => {
         state.loading = false;
@@ -63,7 +62,6 @@ const dashboardSlice = createSlice({
       })
       .addCase(getDepartmentStatus.fulfilled, (state, action) => {
         state.loading = false;
-        state.isLoggedIn = true;
         state.departmentWiseStatus = action.payload;
         // console.log(action)
       })

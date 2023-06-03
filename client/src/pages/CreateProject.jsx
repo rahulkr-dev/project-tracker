@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -10,9 +10,12 @@ import {
   Input,
   useMediaQuery,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { textAreaInfo } from "../utils/customData";
+import { createProjectByUser } from "./../store/project/project.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const initalData = {
   theme: "",
@@ -34,7 +37,9 @@ const CreateProject = () => {
   ]);
 
   const [projectList, setProjectList] = useState(initalData);
-  const toast = useToast()
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const { loading, newProjectAdded } = useSelector((store) => store.project);
 
   const handleChange = (e) => {
     setProjectList({ ...projectList, [e.target.name]: e.target.value });
@@ -49,26 +54,42 @@ const CreateProject = () => {
           status: "error",
           duration: 4000,
           isClosable: true,
-          position:"top"
+          position: "top",
         });
         return;
       }
-    };
+    }
     // Validate for Date
-    if(new Date(projectList.end_date) < new Date(projectList.start_date)){
+    if (new Date(projectList.end_date) < new Date(projectList.start_date)) {
       toast({
         title: `End date can't be less than Start date`,
         status: "error",
         duration: 4000,
         isClosable: true,
-        position:"top"
+        position: "top",
       });
       return;
     }
 
-    // Store in backend 
-    console.log(projectList)
+    // Store in backend
+    // console.log(projectList)
+    dispatch(createProjectByUser(projectList));
+    setProjectList(initalData)
   };
+
+  useEffect(() => {
+    if (newProjectAdded == true) {
+      toast({
+        title: `Project Added Successfully`,
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  }, [newProjectAdded]);
+
+
   return (
     <Box bg="gray.200">
       <Header title={"Create Project"} />
@@ -97,9 +118,7 @@ const CreateProject = () => {
             w={{ base: "98%", md: "62%" }}
             mb={{ base: "-2rem", md: "auto" }}
             placeholder="Enter your Theme..."
-          >
-            
-          </Textarea>
+          ></Textarea>
           {isDesktop ? (
             <Button
               color="white"
@@ -109,7 +128,7 @@ const CreateProject = () => {
               p="6px 25px"
               onClick={handleSubmit}
             >
-              Save Project
+              {loading ? <Spinner size="md" /> : "Save Project"}
             </Button>
           ) : null}
         </Flex>
@@ -174,9 +193,11 @@ const CreateProject = () => {
               onChange={handleChange}
               className="custom-select"
             >
+              <option value="">Select</option>
               <option value="delhi">Delhi</option>
               <option value="goa">Goa</option>
               <option value="pune">Pune</option>
+              <option value="mumbai">Mumbai</option>
             </select>
           </Box>
         </Grid>
@@ -202,7 +223,7 @@ const CreateProject = () => {
             p="6px 25px"
             onClick={handleSubmit}
           >
-            Save Project
+            {loading ? <Spinner size="md" /> : "Save Project"}
           </Button>
         ) : null}
       </Box>
