@@ -13,10 +13,14 @@ import {
   FormLabel,
   FormControl,
   FormErrorMessage,
+  Spinner,
 } from "@chakra-ui/react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import bgImage from "../assets/Header-bg.svg";
 import logo from "../assets/Logo.svg";
+import { useDispatch, useSelector } from 'react-redux';
+import { loginByUser } from './../store/auth/auth.slice';
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,6 +28,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isEmailError, setEmailIsError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
+  const {loading,error,isLoggedIn} = useSelector(store=>store.auth);
+  const dispatch = useDispatch()
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -46,9 +52,15 @@ const Login = () => {
     }
 
     // Perform Logic
+    dispatch(loginByUser({email,password}))
     console.log("Email:", email);
     console.log("Password:", password);
   };
+
+  // If loggedIn then send it to dashboard page
+  if(isLoggedIn==true){
+    return <Navigate to={"/"} />
+  }
   return (
     <Box position="relative" bg="white">
       <Box
@@ -187,7 +199,7 @@ const Login = () => {
             onClick={handleLogin}
             w={["full", "full", "max-content", "max-content"]}
           >
-            Login
+            {loading? <Spinner size='md' />:"Login"}
           </Button>
         </Center>
       </Box>
