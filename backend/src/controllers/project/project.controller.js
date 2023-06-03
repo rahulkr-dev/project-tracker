@@ -99,34 +99,64 @@ const projectController = {
     }
   },
 
-
   // Department graph
-  async departmentStatusData(req,res,next){
-    try{
+  async departmentStatusData(req, res, next) {
+    try {
       const result = await Project.aggregate([
         {
           $group: {
             _id: "$department",
             running: {
               $sum: {
-                $cond: [{ $eq: ["$status", "running"] }, 1, 0]
-              }
+                $cond: [{ $eq: ["$status", "running"] }, 1, 0],
+              },
             },
             closed: {
               $sum: {
-                $cond: [{ $eq: ["$status", "closed"] }, 1, 0]
-              }
-            }
-          }
-        }
+                $cond: [{ $eq: ["$status", "closed"] }, 1, 0],
+              },
+            },
+          },
+        },
       ]);
 
-      return res.send(result)
-      
-    }catch(error){
+      return res.send(result);
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+
+  // Search controller
+  async searchProject(req, res, next) {
+    const { search } = req.query;
+
+    try {
+      // Create a case-insensitive regular expression for the filter text
+      const regexSearch = new RegExp(search, "i");
+
+      // Construct the search query to match any column where the filter text matches partially or completely
+      const searchQuery = {
+        $or: [
+          { theme: { $regex: regexSearch } },
+          { reason: { $regex: regexSearch } },
+          { type: { $regex: regexSearch } },
+          { division: { $regex: regexSearch } },
+          { category: { $regex: regexSearch } },
+          { priority: { $regex: regexSearch } },
+          { department: { $regex: regexSearch } },
+          { location: { $regex: regexSearch } },
+          { status: { $regex: regexSearch } }
+        ],
+      };
+
+      const results = await Project.find(searchQuery);
+
+      return res.json(results);
+    } catch (error) {
       return next(error)
     }
-  }
+  },
 };
 
 module.exports = projectController;
