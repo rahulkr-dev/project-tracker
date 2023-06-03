@@ -8,5 +8,8 @@ app.post("/login", loginController.login);
 // Project apis
 app.post("/project", projectController.createProject);
 app.get("/project", projectController.getProject);
+app.put('/update-status/:id',projectController.updateStatus);
+app.get('/count-document',projectController.countDocuments);
+app.get('/department-status',projectController.departmentStatusData);
 
 module.exports = app;

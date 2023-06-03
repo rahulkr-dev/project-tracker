@@ -12,6 +12,10 @@ class CustomErrorHandler extends Error {
   static serverError(message = "Internal server error") {
     return new CustomErrorHandler(500, message);
   }
+
+  static notFound(message = "Not Found") {
+    return new CustomErrorHandler(404, message);
+  }
 }
 
 module.exports = CustomErrorHandler;

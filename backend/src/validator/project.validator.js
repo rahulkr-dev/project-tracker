@@ -13,5 +13,8 @@ const projectSchema = Joi.object({
   location: Joi.string().required(),
 });
 
+const statusSchema = Joi.string().valid('registered', 'closed', 'running', 'cancelled').default('registered').required()
 
-module.exports = projectSchema
+
+
+module.exports = {projectSchema,statusSchema}

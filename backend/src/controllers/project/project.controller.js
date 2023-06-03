@@ -1,6 +1,12 @@
 const Project = require("../../models/project.model");
-const projectSchema = require("../../validator/project.validator");
+const {
+  projectSchema,
+  statusSchema,
+} = require("../../validator/project.validator");
+const CustomErrorHandler = require("../../services/customErrorHandler");
+
 const projectController = {
+  // Create Prject
   async createProject(req, res, next) {
     try {
       const { error } = projectSchema.validate(req.body);
@@ -17,14 +23,110 @@ const projectController = {
     }
   },
 
+  // GET API controller with pagination
   async getProject(req, res, next) {
+    const { page = 1, limit = 10 } = req.query;
+
     try {
-        let data = await Project.find();
-        return res.status(200).send(data)
-    } catch (err) {
-      return next(err);
+      const skip = (page - 1) * limit;
+      const totalDocuments = await Project.countDocuments();
+      const totalPages = Math.ceil(totalDocuments / limit);
+
+      const results = await Project.find().skip(skip).limit(Number(limit));
+
+      return res.json({
+        results,
+        totalPages,
+        currentPage: Number(page),
+      });
+    } catch (error) {
+      return next(error);
     }
   },
+
+  // Update status controller API
+
+  async updateStatus(req, res, next) {
+    const { id } = req.params;
+    const { status } = req.body;
+    console.log(status);
+
+    const { error } = statusSchema.validate(status);
+    if (error) {
+      return next(error);
+    }
+
+    try {
+      const updatedDocument = await Project.findByIdAndUpdate(
+        id,
+        { status },
+        { new: true }
+      );
+
+      if (!updatedDocument) {
+        return next(CustomErrorHandler.notFound("Document not found"));
+      }
+
+      return res.json(updatedDocument);
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  // Api for Count document
+  async countDocuments(req, res, next) {
+    try {
+      const totalDocuments = await Project.countDocuments();
+      const runningCount = await Project.countDocuments({ status: "running" });
+      const cancelledCount = await Project.countDocuments({
+        status: "cancelled",
+      });
+      const closedCount = await Project.countDocuments({ status: "closed" });
+      const closureDelayCount = await Project.countDocuments({
+        status: "running",
+        end_date: { $lt: new Date() },
+      });
+
+      res.json({
+        totalDocuments,
+        runningCount,
+        cancelledCount,
+        closedCount,
+        closureDelayCount,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+
+  // Department graph
+  async departmentStatusData(req,res,next){
+    try{
+      const result = await Project.aggregate([
+        {
+          $group: {
+            _id: "$department",
+            running: {
+              $sum: {
+                $cond: [{ $eq: ["$status", "running"] }, 1, 0]
+              }
+            },
+            closed: {
+              $sum: {
+                $cond: [{ $eq: ["$status", "closed"] }, 1, 0]
+              }
+            }
+          }
+        }
+      ]);
+
+      return res.send(result)
+      
+    }catch(error){
+      return next(error)
+    }
+  }
 };
 
 module.exports = projectController;
