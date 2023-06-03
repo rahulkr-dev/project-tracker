@@ -88,11 +88,11 @@ const projectController = {
       });
 
       res.json({
-        totalDocuments,
-        runningCount,
-        cancelledCount,
-        closedCount,
-        closureDelayCount,
+        Total_Project: totalDocuments,
+        Closed: runningCount,
+        Running: cancelledCount,
+        Closure_Delay: closedCount,
+        Cancelled: closureDelayCount,
       });
     } catch (error) {
       return next(error);
@@ -126,7 +126,6 @@ const projectController = {
     }
   },
 
-
   // Search controller
   async searchProject(req, res, next) {
     const { search } = req.query;
@@ -146,7 +145,7 @@ const projectController = {
           { priority: { $regex: regexSearch } },
           { department: { $regex: regexSearch } },
           { location: { $regex: regexSearch } },
-          { status: { $regex: regexSearch } }
+          { status: { $regex: regexSearch } },
         ],
       };
 
@@ -154,7 +153,7 @@ const projectController = {
 
       return res.json(results);
     } catch (error) {
-      return next(error)
+      return next(error);
     }
   },
 };

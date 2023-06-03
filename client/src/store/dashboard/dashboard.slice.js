@@ -1,27 +1,33 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { countDocument,departmentStatus } from "./dashboard.api";
+import { countDocument, departmentStatus } from "./dashboard.api";
 
 const initialState = {
   loading: false,
   error: null,
-  documentCount:{},
-  departmentWiseStatus:[]
+  documentCount: [],
+  departmentWiseStatus: [],
 };
 
-export const getCountDocument = createAsyncThunk("project/dashboard/count", async () => {
-  try {
-    let res = await countDocument();
-    console.log("res",res)
-    return res.data;
-  } catch (err) {
-    console.log(err);
+export const getCountDocument = createAsyncThunk(
+  "project/dashboard/count",
+  async () => {
+    try {
+      let res = await countDocument();
+      // console.log("res",res)
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
 
-export const getDepartmentStatus = createAsyncThunk('/project/dashboard/departmentStaus',async() =>{
+export const getDepartmentStatus = createAsyncThunk(
+  "/project/dashboard/departmentStaus",
+  async () => {
     let res = await departmentStatus();
-    return res.data
-})
+    return res.data;
+  }
+);
 
 const dashboardSlice = createSlice({
   name: "dashboard",
@@ -33,13 +39,21 @@ const dashboardSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getCountDocument.fulfilled, (state,action) => {
+      .addCase(getCountDocument.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.documentCount = action.payload
-        console.log("inside",action)
+        let data = [];
+        for (let key in action.payload) {
+          let obj = {
+            title: key,
+            value: action.payload[key],
+          };
+          data.push(obj);
+        }
+        state.documentCount = data;
+        console.log("inside",action.payload)
       })
-      .addCase(getCountDocument.rejected, (state,action) => {
+      .addCase(getCountDocument.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
@@ -47,7 +61,7 @@ const dashboardSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getDepartmentStatus.fulfilled, (state,action) => {
+      .addCase(getDepartmentStatus.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
         state.departmentWiseStatus = action.payload;
@@ -56,7 +70,7 @@ const dashboardSlice = createSlice({
       .addCase(getDepartmentStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      })
+      });
   },
 });
 
