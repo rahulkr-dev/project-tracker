@@ -3,6 +3,7 @@ import { Box, Text, Flex, Image, useMediaQuery } from "@chakra-ui/react";
 import bgImage from "../assets/Header-bg.svg";
 import logout from "../assets/logout.svg";
 import logo from "../assets/Logo.svg";
+import { Link } from "react-router-dom";
 
 const Header = ({ title }) => {
   const [isMobile, isDesktop] = useMediaQuery([
@@ -55,7 +56,9 @@ const Header = ({ title }) => {
           <Text fontSize={"1.2rem"} color="white">
             {title}
           </Text>
-          <Image boxSize={"1.5rem"} src={logout} />
+          <Link to="/login">
+            <Image boxSize={"1.5rem"} src={logout} />
+          </Link>
         </Flex>
       )}
     </>

@@ -16,7 +16,8 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import bgImage from "../assets/Header-bg.svg";
+// import bgImage from "../assets/Header-bg.svg";
+import bgImage from "../assets/login-bg-1.svg";
 import logo from "../assets/Logo.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { loginByUser } from './../store/auth/auth.slice';
