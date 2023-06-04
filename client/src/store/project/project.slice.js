@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createProject, getProject } from "./project.api";
+import { changeStatus, createProject, getProject } from "./project.api";
 
 const initialState = {
   loading: false,
   error: null,
-  newProjectAdded:false,
-  projectList:[]
+  newProjectAdded: false,
+  projectList: {},
 };
 
 export const createProjectByUser = createAsyncThunk(
@@ -20,10 +20,20 @@ export const createProjectByUser = createAsyncThunk(
   }
 );
 
+// in payload we are sending page and limit in the obj
 export const getProjectByUser = createAsyncThunk(
   "/project/get",
-  async () => {
-    let res = await getProject();
+  async (payload) => {
+    let res = await getProject(payload);
+    return res.data;
+  }
+);
+
+// inside payload we send id and body->status:""
+export const changeStatusByUser = createAsyncThunk(
+  "/project/change/status",
+  async (payload) => {
+    let res = await changeStatus(payload);
     return res.data;
   }
 );
@@ -54,9 +64,29 @@ const projectSlice = createSlice({
       })
       .addCase(getProjectByUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.project = action.payload;
+        state.projectList = action.payload;
       })
       .addCase(getProjectByUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(changeStatusByUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changeStatusByUser.fulfilled, (state, action) => {
+        state.loading = false;
+        const receivedProject = action.payload; // Assuming the received object is stored in action.payload
+
+        // Find the index of the project in the results array based on its _id
+        const index = state.projectList.results.findIndex(project => project._id === receivedProject._id);
+      
+        if (index !== -1) {
+          // If the project is found, update the result field
+          state.projectList.results[index] = receivedProject;
+        }
+      })
+      .addCase(changeStatusByUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

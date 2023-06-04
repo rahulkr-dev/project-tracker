@@ -113,5 +113,20 @@ body {
   display: none;
 }
 
+/* Status button styling */
+.custom-button-start{
+background-color: rgba(13, 13, 222, 0.824);
+color: white;
+padding: 6px 1rem;
+border-radius: 1rem;
+font-size: .8rem;
+}
+.custom-button-close,.custom-button-cancel{
+  font-size: .8rem;
+  padding: 0px 1.2rem;
+  border-radius: 1rem;
+  border: 1px solid rgb(3, 3, 133);
+  color: rgb(3, 3, 133);
+}
 /* Additional Global Styles */
 /* Add your additional global styles here */

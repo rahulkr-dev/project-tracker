@@ -8,9 +8,18 @@ export const createProject = async(payload)=>{
     }
 }
 
-export const getProject = async()=>{
+export const getProject = async({limit,page})=>{
     try{
-        return await axios.get(`${baseUrl}/api/project`)
+        return await axios.get(`${baseUrl}/api/project?limit=${limit}&page=${page}`)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+export const changeStatus = async({id,payload})=>{
+    try{
+        return await axios.put(`${baseUrl}/api/update-status/${id}`,payload)
     }catch(err){
         console.log(err)
     }
