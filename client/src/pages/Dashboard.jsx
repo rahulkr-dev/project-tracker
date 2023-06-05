@@ -10,8 +10,17 @@ import DepartmentChart from "../components/DepartmentalChart";
 
 const DashboardStatusBox = ({ title, value }) => {
   return (
-    <Box borderRadius={".8rem"} borderLeft={"6px solid skyblue"} w="14rem" bg="white" p=".7rem 1rem" boxShadow={"md"}>
-      <Text fontWeight={"medium"} color="gray.500">{title.replace("_"," ")}</Text>
+    <Box
+      borderRadius={".8rem"}
+      borderLeft={"6px solid skyblue"}
+      w="14rem"
+      bg="white"
+      p=".7rem 1rem"
+      boxShadow={"md"}
+    >
+      <Text fontWeight={"medium"} color="gray.500">
+        {title.replace("_", " ")}
+      </Text>
       <Text fontWeight={"bold"} fontSize={"2rem"}>
         {value}
       </Text>
@@ -31,9 +40,9 @@ const Dashboard = () => {
   }, []);
   return (
     <Box bg="gray.100">
-      <Header title={"DashBoard"} />
+      <Header title={"Dashboard"} />
       <Box
-      // border={"1px solid yellow"}
+        // border={"1px solid yellow"}
         p="15px"
         w="97%"
         m="auto"
@@ -42,7 +51,9 @@ const Dashboard = () => {
         pos="relative"
         top={["5rem", "5rem", "-3.5rem", "-3.5rem"]}
       >
-        <Flex gap="1rem" overflowX={["scroll", "scroll", "scroll", "hidden"]}>
+        <Flex 
+        // border="1px solid green"
+        gap="1rem" overflowX={{base:"scroll",lg:"scroll"}}>
           {documentCount.map((item, _i) => (
             <DashboardStatusBox
               key={_i}
@@ -53,8 +64,25 @@ const Dashboard = () => {
         </Flex>
       </Box>
       {/* Chart */}
-      <Text ml="1.2rem" mb="1rem" fontWeight={"normal"} fontSize={"1.3rem"} fontFamily={"mono"}>Department wise - Total Vs Closed</Text>
-      <Box mb="3rem" borderRadius={"1rem"} ml="1.2rem" bg="white" boxShadow={"lg"} p="1rem" w={{base:"80%",md:"50%"}}>
+      <Text
+        mt={{base:"6rem",md:"inherit"}}
+        ml="1.3rem"
+        mb="1rem"
+        fontWeight={{base:"bold",md:"normal"}}
+        fontSize={{base:".9rem",md:"1.3rem"}}
+        fontFamily={"mono"}
+      >
+        Department wise - Total Vs Closed
+      </Text>
+      <Box
+        mb="3rem"
+        borderRadius={"1rem"}
+        ml="1.2rem"
+        bg="white"
+        boxShadow={"lg"}
+        p="1rem"
+        w={{ base: "90%", md: "45%" }}
+      >
         {departmentWiseStatus.length > 0 && (
           <DepartmentChart data={departmentWiseStatus} />
         )}

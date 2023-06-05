@@ -9,7 +9,7 @@ const DepartmentalChart = ({ data }) => {
   useEffect(() => {
     // Prepare data for chart
     const departments = data.map((item) => item._id).map((item)=>item.toUpperCase().slice(0,3));
-    const totalProjects = data.map((item) => item.running);
+    const totalProjects = data.map((item) => item.total);
     const closedProjects = data.map((item) => item.closed);
 
     // Create the chart options

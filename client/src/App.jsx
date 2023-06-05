@@ -7,8 +7,8 @@ import { useLocation } from "react-router-dom";
 
 const App = () => {
   const [isMobile, isDesktop] = useMediaQuery([
-    "(max-width: 767px)",
-    "(min-width: 768px)",
+    "(max-width: 867px)",
+    "(min-width: 868px)",
   ]);
   const location = useLocation()
   // console.log(location.pathname)

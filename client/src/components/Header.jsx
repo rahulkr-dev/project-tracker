@@ -51,6 +51,7 @@ const Header = ({ title }) => {
 
       {isMobile && (
         <Flex
+        // border={"1px solid red"}
           bgImage={bgImage}
           bgRepeat={"no-repeat"}
           bgSize={"cover"}

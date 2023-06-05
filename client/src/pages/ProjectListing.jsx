@@ -83,7 +83,7 @@ const ProjectListing = () => {
   };
   return (
     <Box bg="gray.100" borderRadius={"lg"} pb={{ base: "5rem", md: 0 }}>
-      <Header title={"DashBoard"} />
+      <Header title={"Project Listing"} />
       <Box
         boxShadow={"lg"}
         mt={{ base: 0, md: "-2.3rem" }}
@@ -94,6 +94,10 @@ const ProjectListing = () => {
       >
         {/* Search and Sort */}
         <Flex
+        maxW={{base:"90%",md:"100%"}}
+        overflow={"hidden"}
+        m="auto"
+        
           pt={{ base: "5rem", md: "0" }}
           pl={{ base: "1rem", md: "1rem" }}
           pb="1rem"

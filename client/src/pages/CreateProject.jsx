@@ -105,7 +105,7 @@ const CreateProject = () => {
         pb="5rem"
         pt={{ base: "10rem", md: "2rem" }}
       >
-        <Flex justifyContent={"space-between"} mt=".5rem" mb="3rem">
+        <Flex alignItems={"center"} gap="10px" justifyContent={{base:"flex-start",lg:"space-between"}} mt=".5rem" mb="3rem">
           <Textarea
             name="theme"
             value={projectList.theme}
@@ -135,7 +135,7 @@ const CreateProject = () => {
 
         <Grid
           gap="1rem"
-          gridTemplateColumns={{ base: "repeat(1,1fr)", md: "repeat(3,1fr)" }}
+          gridTemplateColumns={{ base: "repeat(1,1fr)", lg: "repeat(3,1fr)" }}
         >
           {textAreaInfo.map((item, _i) => (
             <Box key={_i}>
@@ -207,7 +207,7 @@ const CreateProject = () => {
           pl="6px"
           mt="2rem"
           w="88%"
-          justifyContent={{ base: "flex-start", md: "flex-end" }}
+          justifyContent={{ base: "flex-start", lg: "flex-end" }}
         >
           status:
           <Text fontWeight={"bold"} color="black" as="span" ml="3px">

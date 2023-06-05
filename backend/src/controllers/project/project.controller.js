@@ -89,10 +89,10 @@ const projectController = {
 
       res.json({
         Total_Project: totalDocuments,
-        Closed: runningCount,
-        Running: cancelledCount,
-        Closure_Delay: closedCount,
-        Cancelled: closureDelayCount,
+        Closed: closedCount,
+        Running: runningCount,
+        Closure_Delay: closureDelayCount,
+        Cancelled: cancelledCount,
       });
     } catch (error) {
       return next(error);
@@ -106,10 +106,8 @@ const projectController = {
         {
           $group: {
             _id: "$department",
-            running: {
-              $sum: {
-                $cond: [{ $eq: ["$status", "running"] }, 1, 0],
-              },
+            total: {
+              $sum: 1,
             },
             closed: {
               $sum: {
@@ -151,7 +149,7 @@ const projectController = {
       };
       let results;
       results = await Project.find(searchQuery);
-      if(search==""){
+      if (search == "") {
         results = await Project.find(searchQuery).limit(10);
       }
       const totalDocuments = await Project.countDocuments(searchQuery);
@@ -168,31 +166,31 @@ const projectController = {
   },
 
   // Sort Project
-  async sortProject(req,res,next){
+  async sortProject(req, res, next) {
     let { sortBy } = req.query;
-    const limit = 10
+    const limit = 10;
 
-    if(!sortBy || sortBy==""){
-      sortBy="theme"
+    if (!sortBy || sortBy == "") {
+      sortBy = "theme";
     }
     // console.log(sortBy)
-  try {
-    const projects = await Project.find().sort({ [sortBy]: 1 });
+    try {
+      const projects = await Project.find().sort({ [sortBy]: 1 });
 
-    const totalDocuments = await Project.countDocuments(sortBy);
-    const totalPages = Math.ceil(totalDocuments / limit);
+      const totalDocuments = await Project.countDocuments(sortBy);
+      const totalPages = Math.ceil(totalDocuments / limit);
 
-    return res.json({
-      results:projects,
-      totalPages,
-      currentPage: 1,
-    });
+      return res.json({
+        results: projects,
+        totalPages,
+        currentPage: 1,
+      });
 
-    return res.json(projects);
-  } catch (error) {
-    next(error)
-  }
-  }
+      return res.json(projects);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = projectController;
