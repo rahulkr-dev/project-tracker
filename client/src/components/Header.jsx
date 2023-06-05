@@ -3,13 +3,23 @@ import { Box, Text, Flex, Image, useMediaQuery } from "@chakra-ui/react";
 import bgImage from "../assets/Header-bg.svg";
 import logout from "../assets/logout.svg";
 import logo from "../assets/Logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutByUser } from "../store/auth/auth.slice";
 
 const Header = ({ title }) => {
   const [isMobile, isDesktop] = useMediaQuery([
     "(max-width: 767px)",
     "(min-width: 768px)",
   ]);
+  const dispatch  = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    dispatch(logoutByUser());
+    navigate('/login')
+
+  };
 
   return (
     <>
@@ -57,7 +67,7 @@ const Header = ({ title }) => {
             {title}
           </Text>
           <Link to="/login">
-            <Image boxSize={"1.5rem"} src={logout} />
+            <Image onClick={handleLogout} boxSize={"1.5rem"} src={logout} />
           </Link>
         </Flex>
       )}

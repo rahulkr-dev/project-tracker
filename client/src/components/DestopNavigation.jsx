@@ -7,8 +7,10 @@ import createProjectActive from "../assets/create-project-active.svg";
 import projectList from "../assets/Project-list.svg";
 import projectListActive from "../assets/Project-list-active.svg";
 import logout from "../assets/Logout.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { logoutByUser } from "../store/auth/auth.slice";
+import { useDispatch } from "react-redux";
 
 const navList = [
   {
@@ -33,9 +35,16 @@ const navList = [
 
 const DestopNavigation = () => {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   // console.log(pathname)
 
   // console.log("hi I am destop");
+  const handleLogout = async () => {
+    dispatch(logoutByUser());
+    navigate('/login')
+
+  };
   return (
     <Flex
       p={"1rem"}
@@ -75,7 +84,7 @@ const DestopNavigation = () => {
           />
         </Link>
       </Flex>
-      <Flex h="20%">
+      <Flex h="20%" onClick={handleLogout}>
         <Link to="/login">
           <Image boxSize={"1.7rem"} src={logout} alt="logout image" />
         </Link>
