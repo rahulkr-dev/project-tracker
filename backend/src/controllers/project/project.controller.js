@@ -149,8 +149,11 @@ const projectController = {
           { status: { $regex: regexSearch } },
         ],
       };
-
-      const results = await Project.find(searchQuery);
+      let results;
+      results = await Project.find(searchQuery);
+      if(search==""){
+        results = await Project.find(searchQuery).limit(10);
+      }
       const totalDocuments = await Project.countDocuments(searchQuery);
       const totalPages = Math.ceil(totalDocuments / limit);
 

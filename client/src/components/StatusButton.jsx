@@ -10,7 +10,7 @@ const StatusButton = ({ id }) => {
     dispatch(changeStatusByUser({ payload: { status }, id }));
   };
   return (
-    <Flex gap="10px">
+    <Flex gap="8px">
       <button
         onClick={() => handleChangeStatus("running")}
         className="custom-button-start"

@@ -5,6 +5,7 @@ const {PORT} = require("./config")
 const connect = require('./database/connect')
 const errorHandler = require('./middleware/errorHandler')
 const userRouter = require('./routes')
+// const generateFakeData = require('./utils/fake.data') 
 // Default Middleware
 app.use(express.json());
 app.use(cors())

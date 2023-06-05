@@ -13,7 +13,7 @@ export const textAreaInfo = [
     },
     {
       name: "Category",
-      option: ["Quality A","Quality B","Quality C","Quality D",],
+      option: ["Quality A","Quality B","Quality C","Quality D"],
     },
     {
       name: "Priority",
@@ -21,6 +21,6 @@ export const textAreaInfo = [
     },
     {
       name: "Department",
-      option: ["Startegy","Finance","Quality","Maintenance","Stores"],
+      option: ["Startegy","Finance","Quality","Maintenance","Stores","HR"],
     },
   ];

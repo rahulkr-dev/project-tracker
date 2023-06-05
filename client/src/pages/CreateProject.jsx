@@ -91,7 +91,7 @@ const CreateProject = () => {
 
 
   return (
-    <Box bg="gray.200">
+    <Box bg="gray.100">
       <Header title={"Create Project"} />
       <Box
         bg="white"

@@ -21,7 +21,11 @@ import {
 import Header from "../components/Header";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjectByUser, searchByUser, sortBasedOnValue } from "../store/project/project.slice";
+import {
+  getProjectByUser,
+  searchByUser,
+  sortBasedOnValue,
+} from "../store/project/project.slice";
 import StatusButton from "../components/StatusButton";
 import { FcGenericSortingDesc } from "react-icons/fc";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -49,14 +53,13 @@ const ProjectListing = () => {
     "(min-width: 768px)",
   ]);
 
-
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       dispatch(searchByUser(search));
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [search, dispatch]);
+  }, [search]);
 
   const handleSearch = (e) => {
     const { value } = e.target;
@@ -65,7 +68,7 @@ const ProjectListing = () => {
 
   const dateFormatter = (dateFromDb) => {
     const date = new Date(dateFromDb);
-    const options = { month: "long", day: "numeric", year: "numeric" };
+    const options = { month: "short", day: "numeric", year: "numeric" };
     return date.toLocaleDateString("en-US", options);
   };
 
@@ -74,12 +77,12 @@ const ProjectListing = () => {
   }, []);
 
   // SORT
-  const handleSort = (e)=>{
-    setSort(e.target.value)
-    dispatch(sortBasedOnValue(e.target.value))
-  }
+  const handleSort = (e) => {
+    setSort(e.target.value);
+    dispatch(sortBasedOnValue(e.target.value));
+  };
   return (
-    <Box bg="gray.200" borderRadius={"lg"} pb={{ base: "5rem", md: 0 }}>
+    <Box bg="gray.100" borderRadius={"lg"} pb={{ base: "5rem", md: 0 }}>
       <Header title={"DashBoard"} />
       <Box
         boxShadow={"lg"}
@@ -87,6 +90,7 @@ const ProjectListing = () => {
         borderRadius={{ base: "none", md: "3xl" }}
         w={{ base: "full", md: "98%" }}
         m="auto"
+        // border="1px solid blue"
       >
         {/* Search and Sort */}
         <Flex
@@ -96,6 +100,9 @@ const ProjectListing = () => {
           justifyContent={{ base: "flex-start", md: "space-between" }}
           bg={{ base: "gray.200", md: "white" }}
           boxShadow={"md"}
+          // bg="blue"
+          borderTopRadius={"1rem"}
+          // borderRadius={"1px solid yellow"}
         >
           <InputGroup>
             <InputLeftElement pointerEvents="none">
@@ -144,7 +151,7 @@ const ProjectListing = () => {
 
         {/* Desktop Table */}
         {isDesktop && projectList.results && (
-          <TableContainer>
+          <TableContainer borderBottomRadius={"1rem"} boxShadow={"lg"} bg="white">
             <Table size={"sm"} variant="simple" bg="white">
               <Thead>
                 <Tr w="full" bg="blue.50">
@@ -161,7 +168,7 @@ const ProjectListing = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {projectList.results.map((item) => (
+                {projectList.results.map((item) => (         
                   <Tr
                     textTransform={"capitalize"}
                     fontWeight={"medium"}
@@ -192,9 +199,9 @@ const ProjectListing = () => {
                     <Td>{item.department}</Td>
                     {/* <Td>{item.end_date}</Td> */}
                     {/* <Td>{item.start_date}</Td> */}
-                    <Td>{item.location}</Td>
+                    <Td maxW="7rem" overflow={"hidden"} >{item.location}</Td>
                     <Td>
-                      <Flex gap="2rem" alignItems={"center"}>
+                      <Flex gap="1rem" alignItems={"center"} justifyContent={"space-between"}>
                         <Text fontWeight={"bold"} color="blackAlpha">
                           {item.status}
                         </Text>
