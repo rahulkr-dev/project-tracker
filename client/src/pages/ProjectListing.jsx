@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Thead,
@@ -21,8 +21,12 @@ import {
 import Header from "../components/Header";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjectByUser } from "../store/project/project.slice";
+import { getProjectByUser, searchByUser, sortBasedOnValue } from "../store/project/project.slice";
 import StatusButton from "../components/StatusButton";
+import { FcGenericSortingDesc } from "react-icons/fc";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import Pagination from "../components/Pagenation";
+import { debounce } from "lodash";
 
 const tableHeading = [
   "Project Name",
@@ -37,12 +41,27 @@ const tableHeading = [
 ];
 const ProjectListing = () => {
   const { loading, error, projectList } = useSelector((store) => store.project);
+  const [sort, setSort] = useState("");
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const [isMobile, isDesktop] = useMediaQuery([
     "(max-width: 767px)",
     "(min-width: 768px)",
   ]);
-  // console.log(projectList)
+
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      dispatch(searchByUser(search));
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search, dispatch]);
+
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    setSearch(value);
+  };
 
   const dateFormatter = (dateFromDb) => {
     const date = new Date(dateFromDb);
@@ -53,16 +72,28 @@ const ProjectListing = () => {
   useEffect(() => {
     dispatch(getProjectByUser({ limit: 10, page: 1 }));
   }, []);
+
+  // SORT
+  const handleSort = (e)=>{
+    setSort(e.target.value)
+    dispatch(sortBasedOnValue(e.target.value))
+  }
   return (
-    <Box bg="gray.200" borderRadius={"lg"}>
+    <Box bg="gray.200" borderRadius={"lg"} pb={{ base: "5rem", md: 0 }}>
       <Header title={"DashBoard"} />
-      <Box boxShadow={"lg"} mt={{base:0,md:"-2.3rem"}} borderRadius={{base:"none",md:"3xl"}} w={{base:"full",md:"98%"}} m="auto">
+      <Box
+        boxShadow={"lg"}
+        mt={{ base: 0, md: "-2.3rem" }}
+        borderRadius={{ base: "none", md: "3xl" }}
+        w={{ base: "full", md: "98%" }}
+        m="auto"
+      >
         {/* Search and Sort */}
         <Flex
           pt={{ base: "5rem", md: "0" }}
           pl={{ base: "1rem", md: "1rem" }}
           pb="1rem"
-          justifyContent={"space-between"}
+          justifyContent={{ base: "flex-start", md: "space-between" }}
           bg={{ base: "gray.200", md: "white" }}
           boxShadow={"md"}
         >
@@ -71,13 +102,44 @@ const ProjectListing = () => {
               <SearchIcon color="gray" />
             </InputLeftElement>
             <Input
-              w="250px"
+              value={search}
+              onChange={handleSearch}
+              w="240px"
               placeholder="Search"
               type="search"
               variant={"flushed"}
             />
           </InputGroup>
-          <Flex>SortBy Priority</Flex>
+          <Flex mr="2rem">
+            <select
+              style={{
+                width: "max-content",
+                border: "none",
+                background: "transparent",
+                fontFamily: "monospace",
+              }}
+              name="sort"
+              value={sort}
+              onChange={handleSort}
+              className="custom-select"
+            >
+              <option value="">
+                {isMobile && `Sort By`}
+                {isDesktop && ` Sort By : Priority`}
+              </option>
+              <option value="theme">Name</option>
+              <option value="reason">Reason</option>
+              <option value="type">Type</option>
+              <option value="start_date">Start Date</option>
+              <option value="end_date">End Date</option>
+              <option value="division">Division</option>
+              <option value="category">Category</option>
+              <option value="priority">Priority</option>
+              <option value="department">Deptartment</option>
+              <option value="location">Location</option>
+              <option value="status">Status</option>
+            </select>
+          </Flex>
         </Flex>
 
         {/* Desktop Table */}
@@ -149,7 +211,7 @@ const ProjectListing = () => {
 
       {/* For mobile */}
       {isMobile && projectList.results && (
-        <Grid gap="1rem" mt="1rem" fontFamily={"monospace"} pb="5rem">
+        <Grid gap="1rem" mt="1rem" fontFamily={"monospace"} pb="2rem">
           {projectList.results.map((item, _i) => (
             <Box
               borderRadius={"lg"}
@@ -230,6 +292,11 @@ const ProjectListing = () => {
           ))}
         </Grid>
       )}
+
+      {/* Page nation */}
+      <Box p={{ base: "0 0 1rem 0", md: "2rem" }}>
+        <Pagination />
+      </Box>
     </Box>
   );
 };

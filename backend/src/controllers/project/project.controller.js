@@ -129,6 +129,7 @@ const projectController = {
   // Search controller
   async searchProject(req, res, next) {
     const { search } = req.query;
+    const limit = 10;
 
     try {
       // Create a case-insensitive regular expression for the filter text
@@ -150,12 +151,45 @@ const projectController = {
       };
 
       const results = await Project.find(searchQuery);
+      const totalDocuments = await Project.countDocuments(searchQuery);
+      const totalPages = Math.ceil(totalDocuments / limit);
 
-      return res.json(results);
+      return res.json({
+        results,
+        totalPages,
+        currentPage: 1,
+      });
     } catch (error) {
       return next(error);
     }
   },
+
+  // Sort Project
+  async sortProject(req,res,next){
+    let { sortBy } = req.query;
+    const limit = 10
+
+    if(!sortBy || sortBy==""){
+      sortBy="theme"
+    }
+    // console.log(sortBy)
+  try {
+    const projects = await Project.find().sort({ [sortBy]: 1 });
+
+    const totalDocuments = await Project.countDocuments(sortBy);
+    const totalPages = Math.ceil(totalDocuments / limit);
+
+    return res.json({
+      results:projects,
+      totalPages,
+      currentPage: 1,
+    });
+
+    return res.json(projects);
+  } catch (error) {
+    next(error)
+  }
+  }
 };
 
 module.exports = projectController;

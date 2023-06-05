@@ -24,3 +24,21 @@ export const changeStatus = async({id,payload})=>{
         console.log(err)
     }
 }
+
+export const searchProject = async(query)=>{
+    try{
+        return await axios.get(`${baseUrl}/api/search?search=${query}`)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export const sortProject = async(sortBy)=>{
+    try{
+        return await axios.get(`${baseUrl}/api/sort?sortBy=${sortBy}`)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+

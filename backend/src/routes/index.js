@@ -12,5 +12,6 @@ app.put('/update-status/:id',projectController.updateStatus);
 app.get('/count-document',projectController.countDocuments);
 app.get('/department-status',projectController.departmentStatusData);
 app.get('/search',projectController.searchProject);
+app.get('/sort',projectController.sortProject);
 
 module.exports = app;
