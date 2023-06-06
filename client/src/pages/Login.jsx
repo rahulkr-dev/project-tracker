@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Input,
@@ -14,6 +14,7 @@ import {
   FormControl,
   FormErrorMessage,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 // import bgImage from "../assets/Header-bg.svg";
@@ -30,6 +31,7 @@ const Login = () => {
   const [isEmailError, setEmailIsError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
   const {loading,error,isLoggedIn} = useSelector(store=>store.auth);
+  const toast = useToast()
   const dispatch = useDispatch()
 
   const handlePasswordVisibility = () => {
@@ -58,6 +60,17 @@ const Login = () => {
     console.log("Password:", password);
   };
 
+    // Toast error 
+    useEffect(()=>{
+      if(error){
+        toast({
+          title: 'Wrong Credentials.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        })
+      }
+    },[error])
   // If loggedIn then send it to dashboard page
   if(isLoggedIn==true){
     return <Navigate to={"/"} />

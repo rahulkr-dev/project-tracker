@@ -15,8 +15,8 @@ export const loginByUser = createAsyncThunk("users/login", async (credentials) =
     // Store the token in the local storage
     localStorage.setItem('token', token);
     return res.data;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    throw new Error(error.response.data.error);
   }
 });
 
@@ -35,13 +35,14 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginByUser.fulfilled, (state) => {
+      .addCase(loginByUser.fulfilled, (state,action) => {
         state.loading = false;
         state.isLoggedIn = true;
       })
       .addCase(loginByUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        console.log(action)
       });
   },
 });
