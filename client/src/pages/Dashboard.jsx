@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -86,6 +86,7 @@ const Dashboard = () => {
         {departmentWiseStatus.length > 0 && (
           <DepartmentChart data={departmentWiseStatus} />
         )}
+        {loading && <Spinner />}
       </Box>
     </Box>
   );
