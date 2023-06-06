@@ -1,10 +1,10 @@
 const express = require("express")
 const cors = require('cors')
 const app = express();
-const {PORT} = require("./config")
-const connect = require('./database/connect')
-const errorHandler = require('./middleware/errorHandler')
-const userRouter = require('./routes');
+const {PORT} = require("./src/config")
+const connect = require('./src/database/connect')
+const errorHandler = require('./src/middleware/errorHandler')
+const userRouter = require('./src/routes');
 // const generateFakeData = require('./utils/fake.data') 
 // Default Middleware
 app.use(express.json());
