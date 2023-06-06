@@ -4,7 +4,7 @@ const app = express();
 const {PORT} = require("./config")
 const connect = require('./database/connect')
 const errorHandler = require('./middleware/errorHandler')
-const userRouter = require('./routes')
+const userRouter = require('./routes');
 // const generateFakeData = require('./utils/fake.data') 
 // Default Middleware
 app.use(express.json());
@@ -19,7 +19,9 @@ app.get("/",(req,res)=>{
 app.use(errorHandler)
 
 
-app.listen(PORT,async()=>{
-    await connect()
-    console.log("listening on",PORT)
+//Connect to the database before listening
+connect().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
 })
