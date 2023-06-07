@@ -1,8 +1,14 @@
 # ProjectTrackr
 
 This repository contains the code for the ProjectTrackr, a web application with various functionalities for managing projects. It consists of a client-side folder and a backend folder.
+## Live Demo
+
+A live demo of the web application can be accessed at [https://techproject-fw190480.vercel.app](https://techproject-fw190480.vercel.app)
 
 ## Folder Structure
+
+Email:demo@gmail.com
+Password:demo123
 
 The repository is organized as follows:
 
@@ -83,8 +89,6 @@ To set up the backend of the application, follow these steps:
 Contributions to the project are welcome! If you find any issues or have suggestions for improvement, please feel free to open an issue or submit a pull request.
 
 
-## Live Demo
 
-A live demo of the web application can be accessed at [https://techproject-fw190480.vercel.app/login](https://techproject-fw190480.vercel.app/login)
 
 
