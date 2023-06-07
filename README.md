@@ -7,7 +7,7 @@ A live demo of the web application can be accessed at [https://techproject-fw190
 
 ## Folder Structure
 
-Email:demo@gmail.com
+Email:demo1@gmail.com
 Password:demo123
 
 The repository is organized as follows:
