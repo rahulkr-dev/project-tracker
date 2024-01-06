@@ -1,11 +1,11 @@
-const { DEBUG_MODE } =require('../config');
-const { ValidationError } = require('joi')
+const { ValidationError } = require('joi');
+const Config = require('../config');
 
 const errorHandler = (err, req, res, next) => {
     let statusCode = 500;
     let data = {
         message: 'Internal server error',
-        ...(DEBUG_MODE === 'true' && { originalError: err.message })
+        ...(Config.DEBURG_MODE === 'true' && { originalError: err.message })
     }
     // validate error from joi library
     if (err instanceof ValidationError) {

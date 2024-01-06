@@ -1,8 +1,16 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
-module.exports =  {
+const  {
     PORT,
     DB_URL,
     DEBURG_MODE,
 } = process.env
+
+const Config = {
+    PORT,
+    DB_URL,
+    DEBURG_MODE,
+}
+
+module.exports = Config

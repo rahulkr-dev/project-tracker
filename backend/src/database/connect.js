@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const { DB_URL } = require("../config");
+const Config = require("../config");
 
 const connect = async () => {
   try {
-    const conn = await mongoose.connect(DB_URL, {
+    const conn = await mongoose.connect(Config.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
