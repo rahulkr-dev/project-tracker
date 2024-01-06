@@ -15,5 +15,7 @@ const startServer = ()=>{
     }
 }
 
+startServer()
+
 
 //Connect to the database before listening
