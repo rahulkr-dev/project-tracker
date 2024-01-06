@@ -1,9 +1,9 @@
 import axios from "axios"
-// let baseUrl = "http://localhost:8080"
-let baseUrl = "https://kind-ruby-dolphin-tux.cyclic.app"
+import { BASE_URL } from "../../constant"
+// let BASE_URL = "http://localhost:8080"
 export const login = async(credentials)=>{
     try{
-        return await axios.post(`${baseUrl}/api/login`,credentials)
+        return await axios.post(`${BASE_URL}/api/login`,credentials)
     }catch(err){
         console.log(err)
     }

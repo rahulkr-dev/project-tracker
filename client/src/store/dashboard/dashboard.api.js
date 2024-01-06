@@ -1,10 +1,10 @@
 import axios from "axios"
-// let baseUrl = "http://localhost:8080"
-let baseUrl = "https://kind-ruby-dolphin-tux.cyclic.app"
+import { BASE_URL } from "../../constant"
+// let BASE_URL = "http://localhost:8080"
 
 export const countDocument = async()=>{
     try{
-        return await axios.get(`${baseUrl}/api/count-document`)
+        return await axios.get(`${BASE_URL}/api/count-document`)
     }catch(err){
         console.log(err)
     }
@@ -12,7 +12,7 @@ export const countDocument = async()=>{
 
 export const departmentStatus = async()=>{
     try{
-        return await axios.get(`${baseUrl}/api/department-status`)
+        return await axios.get(`${BASE_URL}/api/department-status`)
     }catch(err){
         console.log(err)
     }
