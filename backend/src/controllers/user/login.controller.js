@@ -30,6 +30,7 @@ const authController = {
         });
         const { error } = registerSchema.validate(req.body);
         if (error) {
+          
           return next(error);
         }
 
@@ -47,6 +48,7 @@ const authController = {
         return res.status(201).send({ accessToken, user: "new" });
       }
     } catch (err) {
+      console.log(err.message,"Error")
       return next(err);
     }
   },

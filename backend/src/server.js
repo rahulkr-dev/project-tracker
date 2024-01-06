@@ -7,7 +7,7 @@ const startServer = ()=>{
     try {
         connectDB().then(() => {
             app.listen(Config.PORT, () => {
-                console.log("listening for requests");
+                console.log("listening for requests",Config.PORT);
             })
         })
     } catch (error) {

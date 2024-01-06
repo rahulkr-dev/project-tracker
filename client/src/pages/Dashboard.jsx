@@ -19,7 +19,7 @@ const DashboardStatusBox = ({ title, value }) => {
       boxShadow={"md"}
     >
       <Text fontWeight={"medium"} color="gray.500">
-        {title.replace("_", " ")}
+        {title?.replace("_", " ")}
       </Text>
       <Text fontWeight={"bold"} fontSize={"2rem"}>
         {value}
@@ -54,7 +54,7 @@ const Dashboard = () => {
         <Flex 
         // border="1px solid green"
         gap="1rem" overflowX={{base:"scroll",lg:"scroll"}}>
-          {documentCount.map((item, _i) => (
+          {documentCount?.map((item, _i) => (
             <DashboardStatusBox
               key={_i}
               title={item.title}
@@ -83,7 +83,7 @@ const Dashboard = () => {
         p="1rem"
         w={{ base: "90%", md: "45%" }}
       >
-        {departmentWiseStatus.length > 0 && (
+        {Array.isArray(departmentWiseStatus) && departmentWiseStatus?.length > 0 && (
           <DepartmentChart data={departmentWiseStatus} />
         )}
         {loading && <Spinner />}
